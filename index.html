@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GF Scripts · Scripts para FiveM</title>
+<meta name="description" content="Tablet policial GF Police, radio GF Radio y GF UI gratis. Scripts para FiveM con diseño propio, para ESX, QBCore y Qbox.">
+<meta name="theme-color" content="#090b0f">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<!-- Vista previa al pegar el enlace en Discord, WhatsApp... (cambia TU-USUARIO por tu usuario de GitHub) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GF Scripts">
+<meta property="og:title" content="GF Scripts · Scripts para FiveM">
+<meta property="og:description" content="Tablet policial GF Police, radio GF Radio y GF UI gratis. Para ESX, QBCore y Qbox.">
+<meta property="og:url" content="https://TU-USUARIO.github.io/">
+<meta property="og:image" content="https://TU-USUARIO.github.io/img/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Bebas+Neue&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Concepto: el escaparate es el propio MDT. Fondo de pantalla de comisaría (noche, rejilla tenue),
+   etiquetas en mono como las lecturas de una radio, titulares en Bebas como los de la tablet.
+   Tema único oscuro a propósito: es el mismo mundo visual que los scripts. */
+:root {
+  color-scheme: dark;
+  --bg: #090b0f;
+  --panel: #10141b;
+  --panel-2: #161b24;
+  --line: #222a36;
+  --fg: #eef1f5;
+  --muted: #9aa5b5;
+  --dim: #6b7686;
+  --accent: #3b82f6;
+  --accent-soft: rgba(59, 130, 246, 0.14);
+  --accent-text: #8fb8ff;
+  --teal: #23b4a3;
+  --free: #34d399;
+  --free-soft: rgba(52, 211, 153, 0.12);
+  --display: 'Bebas Neue', 'Oswald', Impact, 'Arial Narrow', sans-serif;
+  --body: 'Barlow', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  --wrap: 1180px;
+  --gut-l: max(16px, env(safe-area-inset-left, 0px));
+  --gut-r: max(16px, env(safe-area-inset-right, 0px));
+}
+* { box-sizing: border-box; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; letter-spacing: 0.04em; line-height: 0.95; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+
+.wrap { max-width: calc(var(--wrap) + 64px); margin: 0 auto; padding-left: var(--gut-l); padding-right: var(--gut-r); }
+@media (min-width: 720px) { .wrap { --gut-l: max(32px, env(safe-area-inset-left, 0px)); --gut-r: max(32px, env(safe-area-inset-right, 0px)); } }
+
+.tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-text); display: inline-flex; align-items: center; gap: 8px; }
+.tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.tag.free { color: var(--free); }
+.tag.free::before { background: var(--free); box-shadow: 0 0 10px var(--free); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 13px 22px; border-radius: 10px; font-weight: 700; font-size: 16px; text-decoration: none; border: 0; cursor: pointer; font-family: var(--body); transition: transform 0.15s, background 0.15s, box-shadow 0.15s; white-space: nowrap; }
+.btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.35); }
+.btn-primary:hover { background: #4f8ff7; transform: translateY(-1px); }
+.btn-ghost { background: rgba(255, 255, 255, 0.05); color: var(--fg); box-shadow: inset 0 0 0 1px var(--line); }
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.09); }
+.btn-free { background: var(--free); color: #04140d; }
+.btn-free:hover { background: #4ee0ab; }
+
+/* ===== Cabecera ===== */
+header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: rgba(9, 11, 15, 0.92);
+  border-bottom: 1px solid var(--line);
+}
+.bar { display: flex; align-items: center; gap: 24px; height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand svg { width: 36px; height: 36px; }
+.brand span { font-family: var(--display); font-size: 26px; letter-spacing: 0.1em; color: var(--muted); }
+.brand b { font-weight: 400; color: var(--fg); }
+nav { display: flex; gap: 22px; margin-left: auto; }
+nav a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 15px; }
+nav a:hover { color: var(--fg); }
+.bar .btn { padding: 10px 16px; font-size: 15px; }
+@media (max-width: 860px) { nav { display: none; } .bar .btn { margin-left: auto; } }
+
+/* ===== Portada ===== */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(700px 480px at 80% 10%, rgba(59, 130, 246, 0.25), transparent 70%),
+    radial-gradient(600px 420px at 0% 100%, rgba(35, 180, 163, 0.12), transparent 70%);
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(900px 600px at 30% 40%, #000 30%, transparent 80%);
+  mask-image: radial-gradient(900px 600px at 30% 40%, #000 30%, transparent 80%);
+}
+.hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 48px; align-items: center; padding-block: 72px 80px; }
+.hero h1 { font-size: clamp(64px, 9vw, 116px); margin-top: 18px; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lead { margin-top: 20px; font-size: 20px; color: var(--muted); max-width: 30em; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.fw { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+.fw span { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; padding: 6px 10px; border-radius: 6px; background: var(--panel-2); color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); }
+
+.hero-shot { position: relative; padding-bottom: 40px; }
+.screen { border-radius: 16px; overflow: hidden; background: var(--panel); box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08), 0 0 60px rgba(59,130,246,0.12); }
+.hero-shot .screen { transform: perspective(2000px) rotateY(-10deg) rotateX(2deg); transform-origin: left center; }
+.hero-shot .float-radio { position: absolute; right: -12px; bottom: 0; width: 26%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.7)); }
+.hero-shot .float-timer { position: absolute; left: -24px; bottom: 6px; width: 34%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.7)); }
+@media (max-width: 920px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-block: 48px 56px; }
+  .hero-shot .screen { transform: none; }
+  .hero-shot .float-timer { left: 8px; }
+  .hero-shot { padding-bottom: 28px; }
+  .hero-shot .float-radio { display: none; }
+}
+
+/* ===== Secciones ===== */
+section { padding-block: 88px; border-bottom: 1px solid var(--line); }
+.sec-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+.sec-head h2 { font-size: clamp(54px, 7vw, 88px); margin-top: 12px; }
+.sec-head .lead { margin-top: 14px; font-size: 19px; color: var(--muted); max-width: 36em; }
+.buy { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.price { font-family: var(--display); font-size: 44px; letter-spacing: 0.04em; line-height: 1; }
+.price small { font-family: var(--body); font-size: 14px; color: var(--muted); letter-spacing: 0; margin-right: 8px; }
+@media (max-width: 720px) { .sec-head { grid-template-columns: minmax(0, 1fr); } .buy { align-items: flex-start; } }
+
+/* Galería */
+.gallery { margin-top: 44px; display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 16px; }
+.gallery .screen { cursor: zoom-in; position: relative; }
+.gallery .screen img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.cap { position: absolute; left: 14px; bottom: 14px; padding: 8px 12px; border-radius: 8px; background: rgba(9, 11, 15, 0.85); font-size: 14px; font-weight: 600; box-shadow: inset 0 0 0 1px var(--line); max-width: calc(100% - 28px); }
+.thumbs { display: flex; flex-direction: column; gap: 8px; }
+.thumbs button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 6px; border-radius: 10px; border: 0; background: var(--panel); color: var(--muted); font-family: var(--body); font-weight: 600; font-size: 14px; text-align: left; cursor: pointer; box-shadow: inset 0 0 0 1px var(--line); transition: background 0.15s, color 0.15s; }
+.thumbs button img { width: 64px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+.thumbs button:hover { color: var(--fg); background: var(--panel-2); }
+.thumbs button[aria-pressed="true"] { color: var(--fg); background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgba(59,130,246,0.6); }
+@media (max-width: 860px) {
+  .gallery { grid-template-columns: minmax(0, 1fr); }
+  .thumbs { flex-direction: row; overflow-x: auto; padding-bottom: 4px; }
+  .thumbs button { flex-direction: column; width: auto; min-width: 116px; align-items: flex-start; }
+  .thumbs button img { width: 104px; }
+}
+
+/* Funciones */
+.features { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 1px var(--line); }
+.feature { background: var(--bg); padding: 26px 24px 28px; }
+.feature .k { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--dim); text-transform: uppercase; }
+.feature h3 { font-size: 30px; margin-top: 10px; }
+.feature p { margin-top: 10px; color: var(--muted); font-size: 16px; }
+@media (max-width: 920px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .features { grid-template-columns: minmax(0, 1fr); } }
+
+.reqs { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 15px; color: var(--muted); }
+.reqs strong { color: var(--fg); font-weight: 600; margin-right: 4px; }
+.reqs code { font-family: var(--mono); font-size: 13px; padding: 3px 8px; border-radius: 6px; background: var(--panel-2); color: var(--fg); }
+.reqs code.opt { color: var(--muted); }
+
+/* F7 + prisión */
+.duo { margin-top: 56px; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.duo .pics { display: flex; gap: 20px; align-items: flex-end; justify-content: center; }
+.duo .pics img { filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6)); }
+.duo .pics img:first-child { width: 58%; }
+.duo .pics img:last-child { width: 42%; }
+.duo h3 { font-size: 44px; }
+.duo p { margin-top: 14px; color: var(--muted); max-width: 34em; }
+.checks { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 10px; }
+.checks li { display: flex; gap: 12px; align-items: flex-start; }
+.checks li::before { content: ""; flex-shrink: 0; width: 20px; height: 20px; margin-top: 3px; border-radius: 6px; background: var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238fb8ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / 13px no-repeat; }
+@media (max-width: 860px) { .duo { grid-template-columns: minmax(0, 1fr); } }
+
+/* Radio */
+.radio-grid { margin-top: 44px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 48px; align-items: center; }
+.radio-pics { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.radio-pics img { filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6)); }
+.radio-pics img:last-child { margin-top: 48px; }
+.radio-side .screen { margin-top: 28px; }
+@media (max-width: 860px) { .radio-grid { grid-template-columns: minmax(0, 1fr); } .radio-pics { max-width: 460px; margin: 0 auto; } }
+
+/* Pack */
+.pack { position: relative; overflow: hidden; }
+.pack::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(700px 400px at 90% 50%, rgba(59,130,246,0.18), transparent 70%); }
+.pack-card { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: center; padding: 40px; border-radius: 18px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--line); }
+.pack-card h2 { font-size: clamp(48px, 6vw, 72px); margin-top: 12px; }
+.pack-card p { margin-top: 12px; color: var(--muted); max-width: 34em; }
+.pack-items { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.pack-items span { padding: 8px 14px; border-radius: 8px; background: var(--panel-2); font-weight: 600; font-size: 15px; box-shadow: inset 0 0 0 1px var(--line); }
+@media (max-width: 720px) { .pack-card { grid-template-columns: minmax(0, 1fr); padding: 28px 22px; } .pack-card .buy { align-items: flex-start; } }
+
+/* Gratis */
+.free-sec { background: linear-gradient(180deg, rgba(52,211,153,0.05), transparent 60%); }
+.free-sec .sec-head h2 em { font-style: normal; color: var(--free); }
+.free-grid { margin-top: 44px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.free-demo { display: grid; gap: 20px; justify-items: center; padding: 32px; border-radius: 16px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--line); }
+.free-demo img { filter: drop-shadow(0 16px 30px rgba(0,0,0,0.5)); }
+.free-demo .t { width: 85%; }
+.free-demo .p { width: 100%; }
+.free-demo .x { width: 46%; }
+.free-sec .checks li::before { background-color: var(--free-soft); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2334d399' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E"); }
+@media (max-width: 860px) { .free-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Cómo se compra */
+.steps { margin-top: 44px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
+.step { padding: 24px 22px; border-radius: 14px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--line); counter-increment: s; }
+.step::before { content: counter(s, decimal-leading-zero); font-family: var(--mono); font-size: 13px; color: var(--accent-text); }
+.step h3 { font-size: 28px; margin-top: 12px; }
+.step p { margin-top: 8px; color: var(--muted); font-size: 15.5px; }
+.step code { font-family: var(--mono); font-size: 13px; color: var(--fg); background: var(--panel-2); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+@media (max-width: 920px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+
+/* Preguntas */
+.faq { margin-top: 40px; display: grid; gap: 10px; max-width: 860px; }
+.faq details { border-radius: 12px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--line); }
+.faq summary { list-style: none; cursor: pointer; padding: 18px 52px 18px 22px; font-weight: 700; font-size: 18px; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 22px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 20px; color: var(--accent-text); }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { padding: 0 22px 20px; color: var(--muted); max-width: 46em; }
+
+/* Pie */
+footer { padding-block: 48px 56px; color: var(--dim); font-size: 14px; }
+.foot { display: flex; flex-wrap: wrap; gap: 20px 40px; justify-content: space-between; align-items: flex-start; }
+.foot .brand span { font-size: 22px; }
+.foot p { margin-top: 12px; max-width: 34em; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 18px; }
+.foot-links a { color: var(--muted); text-decoration: none; font-weight: 600; }
+.foot-links a:hover { color: var(--fg); }
+
+/* Visor de imágenes */
+dialog.viewer { border: 0; padding: 0; background: transparent; max-width: min(1400px, 94vw); width: 100%; }
+dialog.viewer::backdrop { background: rgba(4, 5, 8, 0.9); }
+dialog.viewer img { width: 100%; border-radius: 12px; box-shadow: 0 0 0 1px rgba(255,255,255,0.1); }
+dialog.viewer .close { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border-radius: 10px; border: 0; background: rgba(9,11,15,0.85); color: var(--fg); font-size: 22px; cursor: pointer; box-shadow: inset 0 0 0 1px var(--line); }
+dialog.viewer p { margin-top: 12px; text-align: center; color: var(--muted); font-weight: 600; }
+
+.soon { font-size: 13px; color: var(--dim); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gfA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b9dff"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+    <linearGradient id="gfB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
+    <symbol id="gf-mark" viewBox="0 0 120 120">
+      <path d="M60 6l46 17v33c0 29-19 49-46 58C33 105 14 85 14 56V23z" fill="url(#gfA)"/>
+      <path d="M60 6l46 17v33c0 29-19 49-46 58C33 105 14 85 14 56V23z" fill="none" stroke="#9ec2ff" stroke-opacity="0.6" stroke-width="2"/>
+      <path d="M60 14l38 14v26c0 6-1 11-3 16H25c-2-5-3-10-3-16V28z" fill="url(#gfB)"/>
+      <text x="60" y="78" text-anchor="middle" font-family="'Bebas Neue', Impact, sans-serif" font-size="54" letter-spacing="2" fill="#ffffff">GF</text>
+    </symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 7H6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#inicio" aria-label="GF Scripts, inicio">
+      <svg aria-hidden="true"><use href="#gf-mark"/></svg>
+      <span><b>GF</b> SCRIPTS</span>
+    </a>
+    <nav aria-label="Secciones">
+      <a href="#police">GF Police</a>
+      <a href="#radio">GF Radio</a>
+      <a href="#pack">Pack</a>
+      <a href="#gratis">Gratis</a>
+      <a href="#compra">Cómo se compra</a>
+      <a href="#preguntas">Preguntas</a>
+    </nav>
+    <a class="btn btn-primary" data-link="tienda" href="#compra"><svg aria-hidden="true"><use href="#i-cart"/></svg>Tienda</a>
+  </div>
+</header>
+
+<main id="inicio">
+  <!-- ===== PORTADA ===== -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="tag">Scripts para FiveM</span>
+        <h1>Tu policía, <em>lista para servicio</em></h1>
+        <p class="lead">Tablet policial a pantalla completa, radio con frecuencias y grupos, y una interfaz gratis para tu servidor. Todo con el mismo diseño y en español.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#police">Ver los scripts</a>
+          <a class="btn btn-ghost" href="#gratis"><svg aria-hidden="true"><use href="#i-down"/></svg>Probar GF UI gratis</a>
+        </div>
+        <div class="fw" aria-label="Compatible con">
+          <span>ESX LEGACY</span><span>QBCORE</span><span>QBOX</span><span>OX_LIB</span><span>PMA-VOICE</span>
+        </div>
+      </div>
+      <div class="hero-shot">
+        <div class="screen"><img src="img/tab-home.webp" width="1600" height="900" alt="Pantalla de inicio de la tablet GF Police con el servicio, la radio, los agentes de servicio y las búsquedas activas"></div>
+        <img class="float-timer" src="img/jail-timer.webp" width="400" height="211" alt="Contador de condena en prisión: 25:35">
+        <img class="float-radio" src="img/radio-list.webp" width="420" height="1211" alt="Radio GF Radio con la lista de frecuencias">
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GF POLICE ===== -->
+  <section id="police">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="tag">MDT · Tablet policial</span>
+          <h2>GF Police</h2>
+          <p class="lead">Todo lo que la policía necesita en una tablet: fichas, informes, multas, avisos con mapa en vivo, prisión en calabozos y depósito de vehículos. Cada cuerpo con su color y su logo.</p>
+        </div>
+        <div class="buy" data-product="police">
+          <div class="price" hidden></div>
+          <a class="btn btn-primary" data-link="tienda" href="#compra"><svg aria-hidden="true"><use href="#i-cart"/></svg>Comprar GF Police</a>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <div class="screen" id="gal-main" role="button" tabindex="0" aria-label="Ver la captura en grande">
+          <img id="gal-img" src="img/tab-citizen.webp" width="1600" height="900" alt="">
+          <div class="cap" id="gal-cap"></div>
+        </div>
+        <div class="thumbs" id="gal-thumbs" aria-label="Capturas de GF Police">
+          <button type="button" data-src="img/tab-citizen.webp" data-cap="Ficha del ciudadano: foto, licencias, multas, antecedentes y notas">
+            <img src="img/tab-citizen.webp" alt="">Ficha
+          </button>
+          <button type="button" data-src="img/tab-report.webp" data-cap="Informes con agentes, implicados y delitos del código penal">
+            <img src="img/tab-report.webp" alt="">Informe
+          </button>
+          <button type="button" data-src="img/tab-alerts.webp" data-cap="Avisos del 911 y anónimos con el mapa en vivo">
+            <img src="img/tab-alerts.webp" alt="">Avisos y mapa
+          </button>
+          <button type="button" data-src="img/tab-jail.webp" data-cap="Presos en los calabozos, con el tiempo que les queda">
+            <img src="img/tab-jail.webp" alt="">Prisión
+          </button>
+          <button type="button" data-src="img/tab-agents.webp" data-cap="Plantilla: placas, rangos y horas de servicio">
+            <img src="img/tab-agents.webp" alt="">Agentes
+          </button>
+          <button type="button" data-src="img/tab-home.webp" data-cap="Inicio: servicio, unidad, radio y búsquedas activas">
+            <img src="img/tab-home.webp" alt="">Inicio
+          </button>
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="feature"><span class="k">Fichas</span><h3>Ciudadanos y vehículos</h3><p>Foto, licencias, notas, multas, antecedentes, busca y captura e historial del depósito.</p></div>
+        <div class="feature"><span class="k">Informes</span><h3>Informes y multas</h3><p>Agentes, implicados y delitos del código penal, que se edita desde la tablet. Los ciudadanos pagan con <code style="font-family:var(--mono);font-size:14px">/multas</code>.</p></div>
+        <div class="feature"><span class="k">Servicio</span><h3>Unidades y avisos</h3><p>Entrar y salir de servicio, estados, unidades y horas. <code style="font-family:var(--mono);font-size:14px">/911</code> y <code style="font-family:var(--mono);font-size:14px">/entorno</code> con panel en pantalla.</p></div>
+        <div class="feature"><span class="k">Calle · F7</span><h3>Menú de acciones</h3><p>Esposar, escoltar, meter en el coche, cachear, foto de ficha y mandar al depósito.</p></div>
+        <div class="feature"><span class="k">Prisión</span><h3>Calabozos de comisaría</h3><p>Metes al detenido, cierras la puerta y aplicas la condena desde el informe. Al cumplirla sale a la puerta.</p></div>
+        <div class="feature"><span class="k">Por cuerpo</span><h3>LSPD, BCSO y los tuyos</h3><p>Color, logo, cuenta de la empresa y permisos por rango para cada cuerpo.</p></div>
+      </div>
+
+      <div class="duo">
+        <div class="pics">
+          <img src="img/f7.webp" width="520" height="702" alt="Menú de acciones F7: esposar, escoltar, meter en el vehículo, cachear, foto de ficha y mandar al depósito">
+          <img src="img/toasts.webp" width="540" height="457" alt="Avisos en pantalla con el diseño de GF Police">
+        </div>
+        <div>
+          <span class="tag">En la calle</span>
+          <h3 style="margin-top:12px">Sin sacar la tablet</h3>
+          <p>Con la F7 el agente hace lo de cada día en un menú con el mismo diseño. Los avisos en pantalla también siguen el estilo de la tablet.</p>
+          <ul class="checks">
+            <li>Esposar y quitar esposas, con objeto opcional</li>
+            <li>Escoltar, meter y sacar del vehículo</li>
+            <li>Cachear con ox_inventory o qb-inventory</li>
+            <li>Depósito: el dueño lo recupera en el de su script de garajes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="reqs">
+        <strong>Requisitos</strong>
+        <code>ESX / QBCore / Qbox</code><code>ox_lib</code><code>oxmysql</code>
+        <code class="opt">ox_inventory (recomendado)</code><code class="opt">ox_doorlock para los calabozos</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GF RADIO ===== -->
+  <section id="radio">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="tag">Radio · Mumble</span>
+          <h2>GF Radio</h2>
+          <p class="lead">Radio para todo el servidor. Frecuencias de trabajo, grupos que crean los propios jugadores y frecuencias públicas, con teclas que cada uno cambia desde la radio.</p>
+        </div>
+        <div class="buy" data-product="radio">
+          <div class="price" hidden></div>
+          <a class="btn btn-primary" data-link="tienda" href="#compra"><svg aria-hidden="true"><use href="#i-cart"/></svg>Comprar GF Radio</a>
+        </div>
+      </div>
+
+      <div class="radio-grid">
+        <div class="radio-pics">
+          <img src="img/radio-list.webp" width="420" height="1211" alt="GF Radio: lista de frecuencias de la policía por columnas">
+          <img src="img/radio-settings.webp" width="420" height="1211" alt="GF Radio: ajustes de volumen, sonido y teclas">
+        </div>
+        <div class="radio-side">
+          <ul class="checks">
+            <li>Cada trabajo ve solo sus canales: fijos arriba y el resto por columnas</li>
+            <li>Grupos con 5 frecuencias propias e invitaciones por cercanía o ID</li>
+            <li>Hablar por tu frecuencia o a todo tu grupo a la vez</li>
+            <li>Teclas, volumen, silencio, modo streamer y animaciones</li>
+            <li>Sonido propio: un pitido limpio, sin interferencias</li>
+          </ul>
+          <div class="screen"><img src="img/tab-radio.webp" width="1600" height="900" alt="La radio dentro de la tablet GF Police, con los indicativos de cada agente"></div>
+          <p class="soon" style="margin-top:10px">Con GF Police: canales solo de servicio, indicativos y la radio dentro de la tablet.</p>
+        </div>
+      </div>
+
+      <div class="reqs">
+        <strong>Requisitos</strong>
+        <code>ESX / QBCore / Qbox</code><code>ox_lib</code><code>oxmysql</code><code>pma-voice</code>
+        <code class="opt">objeto radio (opcional)</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PACK ===== -->
+  <section id="pack" class="pack">
+    <div class="wrap">
+      <div class="pack-card">
+        <div>
+          <span class="tag">Pack</span>
+          <h2>GF Police + GF Radio</h2>
+          <p>Los dos scripts juntos y más baratos. Están hechos para ir a la vez: la radio aparece dentro de la tablet y los canales siguen el servicio de cada agente.</p>
+          <div class="pack-items"><span>GF Police</span><span>GF Radio</span><span>Actualizaciones incluidas</span></div>
+        </div>
+        <div class="buy" data-product="pack">
+          <div class="price" hidden></div>
+          <a class="btn btn-primary" data-link="tienda" href="#compra"><svg aria-hidden="true"><use href="#i-cart"/></svg>Comprar el pack</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GRATIS ===== -->
+  <section id="gratis" class="free-sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="tag free">Gratis</span>
+          <h2>GF UI <em>gratis</em></h2>
+          <p class="lead">Avisos, barra de progreso y texto de ayuda con el diseño de GF Scripts. Para ESX y QBCore, sin compilar nada.</p>
+        </div>
+        <div class="buy">
+          <a class="btn btn-free" data-link="gfui" href="#compra"><svg aria-hidden="true"><use href="#i-down"/></svg>Descargar gratis</a>
+        </div>
+      </div>
+      <div class="free-grid">
+        <div class="free-demo">
+          <img class="t" src="img/ui-toasts.webp" width="540" height="430" alt="Avisos de GF UI: hecho, error, mensaje y aviso">
+          <img class="p" src="img/ui-progress.webp" width="600" height="134" alt="Barra de progreso de GF UI: Reparando el vehículo, 74%">
+          <img class="x" src="img/ui-text.webp" width="308" height="92" alt="Texto de ayuda de GF UI con la tecla E">
+        </div>
+        <div>
+          <ul class="checks">
+            <li>Sustituye los avisos, la barra y el texto de ESX copiando tres carpetas</li>
+            <li>En QBCore cambia la barra de progreso y, con una función, los avisos</li>
+            <li>Opcional: unas líneas en ox_lib para que todo el servidor tenga el mismo estilo</li>
+            <li>Color, posiciones, duración y sonido en el <code style="font-family:var(--mono);font-size:14px">config.lua</code></li>
+            <li>Código abierto: el diseño está en CSS normal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CÓMO SE COMPRA ===== -->
+  <section id="compra">
+    <div class="wrap">
+      <span class="tag">Compra segura</span>
+      <h2 style="font-size:clamp(48px,6vw,72px);margin-top:12px">Cómo se compra</h2>
+      <div class="steps">
+        <div class="step"><h3>Compras en la tienda</h3><p>El pago lo gestiona Tebex, la tienda oficial de los scripts de FiveM.</p></div>
+        <div class="step"><h3>Te llega a Cfx.re</h3><p>El script aparece en <code>portal.cfx.re</code>, en Assets → Granted Assets, con la cuenta con la que compraste.</p></div>
+        <div class="step"><h3>Lo copias</h3><p>Descargas la carpeta, la pones en <code>resources</code> y añades <code>ensure</code> en el <code>server.cfg</code>.</p></div>
+        <div class="step"><h3>A patrullar</h3><p>Las tablas de la base de datos se crean solas. Ajustas el <code>config.lua</code> y listo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PREGUNTAS ===== -->
+  <section id="preguntas">
+    <div class="wrap">
+      <span class="tag">Preguntas</span>
+      <h2 style="font-size:clamp(48px,6vw,72px);margin-top:12px">Preguntas frecuentes</h2>
+      <div class="faq">
+        <details>
+          <summary>¿Funciona en QBCore y Qbox?</summary>
+          <p>Sí. GF Police y GF Radio detectan solos si el servidor usa ESX Legacy, QBCore o Qbox. También funcionan con ox_inventory o qb-inventory.</p>
+        </details>
+        <details>
+          <summary>¿Puedo cambiar cosas del script?</summary>
+          <p>Sí. La configuración, los textos (español e inglés), el código de compatibilidad con cada framework y el estilo de los avisos vienen abiertos. Solo va protegida la parte principal, con el sistema oficial de Cfx.re.</p>
+        </details>
+        <details>
+          <summary>¿Las actualizaciones se pagan?</summary>
+          <p>No. Cuando sale una versión nueva la descargas otra vez desde portal.cfx.re, con la misma cuenta.</p>
+        </details>
+        <details>
+          <summary>¿En qué servidores funciona?</summary>
+          <p>En los servidores cuya clave (license key) sea de la misma cuenta de Cfx.re con la que compraste.</p>
+        </details>
+        <details>
+          <summary>¿Hace falta ox_doorlock para la prisión?</summary>
+          <p>No es obligatorio, pero es lo que recomendamos: el agente mete al detenido en el calabozo, cierra la puerta con ox_doorlock y aplica la condena desde el informe.</p>
+        </details>
+        <details>
+          <summary>¿Cómo pido ayuda?</summary>
+          <p>En nuestro Discord, en el canal de soporte para clientes. Ten a mano el ID de la compra de Tebex y lo que salga en rojo en la consola.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="#inicio" aria-label="GF Scripts, inicio"><svg aria-hidden="true"><use href="#gf-mark"/></svg><span><b>GF</b> SCRIPTS</span></a>
+      <p>© 2026 GF Scripts. GF Scripts no está afiliado a Rockstar Games, Take-Two Interactive ni Cfx.re. Las capturas son de los scripts reales con datos de ejemplo.</p>
+    </div>
+    <div class="foot-links">
+      <a data-link="tienda" href="#compra">Tienda</a>
+      <a data-link="discord" href="#preguntas">Discord</a>
+      <a href="#preguntas">Preguntas</a>
+    </div>
+  </div>
+</footer>
+
+<dialog class="viewer" id="viewer" aria-label="Captura en grande">
+  <button class="close" type="button" aria-label="Cerrar">×</button>
+  <img id="viewer-img" src="" alt="">
+  <p id="viewer-cap"></p>
+</dialog>
+
+<script>
+// ===== Ajustes de la web: cambia aquí los enlaces y los precios =====
+const CONFIG = {
+  tienda: 'https://gfscripts.tebex.store',  // tu tienda de Tebex
+  gfui: 'https://gfscripts.tebex.store',    // dónde se descarga GF UI (Tebex, GitHub...)
+  discord: null,                            // invitación de Discord, por ejemplo 'https://discord.gg/xxxx'
+  precios: { police: null, radio: null, pack: null },  // por ejemplo '24,99 €' (null = no se muestra)
+};
+
+// Enlaces
+document.querySelectorAll('[data-link]').forEach((a) => {
+  const url = CONFIG[a.dataset.link];
+  if (url) {
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+  } else if (a.dataset.link === 'discord') {
+    a.hidden = true;
+  }
+});
+
+// Precios
+document.querySelectorAll('.buy[data-product]').forEach((box) => {
+  const price = CONFIG.precios[box.dataset.product];
+  const el = box.querySelector('.price');
+  if (price && el) {
+    el.innerHTML = '<small>Precio</small>';
+    el.append(price);
+    el.hidden = false;
+  }
+});
+
+// Galería de GF Police
+const galImg = document.getElementById('gal-img');
+const galCap = document.getElementById('gal-cap');
+const thumbs = [...document.querySelectorAll('#gal-thumbs button')];
+function select(btn) {
+  thumbs.forEach((b) => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+  galImg.src = btn.dataset.src;
+  galImg.alt = btn.dataset.cap;
+  galCap.textContent = btn.dataset.cap;
+}
+thumbs.forEach((b) => b.addEventListener('click', () => select(b)));
+select(thumbs[0]);
+
+// Visor en grande
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewer-img');
+const viewerCap = document.getElementById('viewer-cap');
+function openViewer(src, cap) {
+  viewerImg.src = src;
+  viewerImg.alt = cap || '';
+  viewerCap.textContent = cap || '';
+  try { viewer.showModal(); } catch (e) { viewer.setAttribute('open', ''); }
+}
+const galMain = document.getElementById('gal-main');
+galMain.addEventListener('click', () => openViewer(galImg.src, galCap.textContent));
+galMain.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); galMain.click(); } });
+viewer.querySelector('.close').addEventListener('click', () => viewer.close());
+viewer.addEventListener('click', (e) => { if (e.target === viewer) viewer.close(); });
+</script>
+</body>
+</html>

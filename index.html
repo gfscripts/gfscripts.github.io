@@ -258,6 +258,10 @@ dialog.viewer .close { position: absolute; top: 10px; right: 10px; width: 40px; 
 dialog.viewer p { margin-top: 12px; text-align: center; color: var(--muted); font-weight: 600; }
 
 .soon { font-size: 13px; color: var(--dim); }
+.btn-soon { background: var(--panel-2); color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); cursor: default; }
+.btn-soon:hover { transform: none; }
+.soon-box { margin: 0 0 32px; padding: 16px 20px; border-radius: 12px; background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgba(59,130,246,0.45); color: var(--fg); }
+.soon-box a { color: var(--accent-text); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -490,6 +494,7 @@ dialog.viewer p { margin-top: 12px; text-align: center; color: var(--muted); fon
   <!-- ===== CÓMO SE COMPRA ===== -->
   <section id="compra">
     <div class="wrap">
+      <p class="soon-box" id="store-soon" hidden><strong>La tienda abre muy pronto.</strong> Mientras tanto puedes descargar <a href="#gratis">GF UI gratis</a>.</p>
       <span class="tag">Compra segura</span>
       <h2 style="font-size:clamp(48px,6vw,72px);margin-top:12px">Cómo se compra</h2>
       <div class="steps">
@@ -559,16 +564,40 @@ dialog.viewer p { margin-top: 12px; text-align: center; color: var(--muted); fon
 <script>
 // ===== Ajustes de la web: cambia aquí los enlaces y los precios =====
 const CONFIG = {
+  tiendaAbierta: false,                     // pon true cuando la tienda de Tebex esté activa
   tienda: 'https://gfscripts.tebex.store',  // tu tienda de Tebex
-  gfui: 'https://gfscripts.tebex.store',    // dónde se descarga GF UI (Tebex, GitHub...)
+  gfui: 'gf-ui.zip',                        // descarga de GF UI (el zip subido junto a esta página)
   discord: null,                            // invitación de Discord, por ejemplo 'https://discord.gg/xxxx'
   precios: { police: null, radio: null, pack: null },  // por ejemplo '24,99 €' (null = no se muestra)
 };
 
+// Tienda cerrada: los botones de compra pasan a "Próximamente"
+if (!CONFIG.tiendaAbierta) {
+  document.querySelectorAll('.buy [data-link="tienda"]').forEach((a) => {
+    a.removeAttribute('data-link');
+    a.removeAttribute('href');
+    a.classList.add('btn-soon');
+    a.setAttribute('aria-disabled', 'true');
+    a.textContent = 'Próximamente';
+  });
+  const top = document.querySelector('header [data-link="tienda"]');
+  if (top) {
+    top.removeAttribute('data-link');
+    top.href = '#gratis';
+    top.innerHTML = '<svg aria-hidden="true"><use href="#i-down"/></svg>GF UI gratis';
+  }
+  document.querySelectorAll('footer [data-link="tienda"]').forEach((a) => { a.hidden = true; });
+  const notice = document.getElementById('store-soon');
+  if (notice) notice.hidden = false;
+}
+
 // Enlaces
 document.querySelectorAll('[data-link]').forEach((a) => {
   const url = CONFIG[a.dataset.link];
-  if (url) {
+  if (a.dataset.link === 'gfui' && url && !/^https?:/.test(url)) {
+    a.href = url;
+    a.setAttribute('download', '');
+  } else if (url) {
     a.href = url;
     a.target = '_blank';
     a.rel = 'noopener';

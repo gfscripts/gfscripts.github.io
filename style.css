@@ -112,7 +112,8 @@ nav a:hover { color: var(--fg); }
 
 .hero-shot { position: relative; padding-bottom: 40px; }
 .screen { border-radius: 16px; overflow: hidden; background: var(--panel); box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08), 0 0 60px rgba(59,130,246,0.12); }
-.hero-shot .screen { transform: perspective(2000px) rotateY(-10deg) rotateX(2deg); transform-origin: left center; }
+/* Sin inclinación 3D: así la captura se ve nítida */
+.hero-shot .screen { transform: none; }
 .hero-shot .float-radio { position: absolute; right: -12px; bottom: 0; width: 26%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.7)); }
 .hero-shot .float-timer { position: absolute; left: -24px; bottom: 6px; width: 34%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.7)); }
 @media (max-width: 920px) {

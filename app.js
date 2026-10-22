@@ -31,7 +31,7 @@ const CONFIG = {
 
   // Precios en euros, con punto para los decimales. Ejemplo: police: 24.99
   // Mientras sean null, sale "[X €]". El ahorro del pack se calcula solo.
-  precios: { police: null, radio: null, pack: null },
+  precios: { police: 26.99, radio: 14.99, pack: 33.99 },
 };
 
 // ============================================================

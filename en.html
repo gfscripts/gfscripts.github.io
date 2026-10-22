@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GF Scripts · FiveM scripts</title>
+<meta name="description" content="GF Police MDT tablet, GF Radio and free GF UI. FiveM scripts with their own design, in English and Spanish, for ESX, QBCore and Qbox.">
+<meta name="theme-color" content="#090b0f">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="alternate" hreflang="es" href="https://gfscripts.github.io/">
+<link rel="alternate" hreflang="en" href="https://gfscripts.github.io/en.html">
+
+<!-- Preview when the link is pasted in Discord, WhatsApp... -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GF Scripts">
+<meta property="og:title" content="GF Scripts · FiveM scripts">
+<meta property="og:description" content="GF Police MDT tablet, GF Radio and free GF UI. For ESX, QBCore and Qbox.">
+<meta property="og:url" content="https://gfscripts.github.io/en.html">
+<meta property="og:image" content="https://gfscripts.github.io/preview.jpg">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Bebas+Neue&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="preload" as="image" href="tab-home.webp" fetchpriority="high">
+</head>
+<body>
+<a class="skip" href="#inicio">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gfA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b9dff"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+    <linearGradient id="gfB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
+    <symbol id="gf-mark" viewBox="0 0 120 120">
+      <path d="M60 6l46 17v33c0 29-19 49-46 58C33 105 14 85 14 56V23z" fill="url(#gfA)"/>
+      <path d="M60 6l46 17v33c0 29-19 49-46 58C33 105 14 85 14 56V23z" fill="none" stroke="#9ec2ff" stroke-opacity="0.6" stroke-width="2"/>
+      <path d="M60 14l38 14v26c0 6-1 11-3 16H25c-2-5-3-10-3-16V28z" fill="url(#gfB)"/>
+      <text x="60" y="78" text-anchor="middle" font-family="'Bebas Neue', Impact, sans-serif" font-size="54" letter-spacing="2" fill="#ffffff">GF</text>
+    </symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 7H6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#inicio" aria-label="GF Scripts, home">
+      <svg aria-hidden="true"><use href="#gf-mark"/></svg>
+      <span><b>GF</b> SCRIPTS</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#police">GF Police</a>
+      <a href="#radio">GF Radio</a>
+      <a href="#precios">Pricing</a>
+      <a href="#gratis">Free</a>
+      <a href="#compra">How to buy</a>
+      <a href="#preguntas">FAQ</a>
+    </nav>
+    <div class="head-actions">
+      <div class="lang" aria-label="Language">
+        <a href="./" lang="es" hreflang="es" aria-label="Versión en español">ES</a>
+        <span aria-current="true" lang="en">EN</span>
+      </div>
+      <!-- TEBEX: this button becomes "Store" when you set CONFIG.tienda in app.js -->
+      <a class="btn btn-soon" data-buy="store" href="https://discord.gg/nR78WKsqf"><svg aria-hidden="true"><use href="#i-chat"/></svg>Coming soon</a>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+  <!-- ===== PORTADA ===== -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="tag">FiveM scripts</span>
+        <h1>Your police, <em>ready for duty</em></h1>
+        <p class="lead">A full-screen police tablet, a radio with frequencies and groups, and a free UI for your server. One design for everything, in English and Spanish.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#police">See the scripts</a>
+          <a class="btn btn-ghost" href="#gratis"><svg aria-hidden="true"><use href="#i-down"/></svg>Try GF UI for free</a>
+        </div>
+        <div class="fw" aria-label="Works with">
+          <span>ESX LEGACY</span><span>QBCORE</span><span>QBOX</span><span>OX_LIB</span><span>PMA-VOICE</span>
+        </div>
+      </div>
+      <!-- VIDEO: set the YouTube code in app.js (CONFIG.video) and it shows here instead of the screenshot -->
+      <div class="hero-shot" id="hero-video">
+        <div class="screen"><img src="tab-home.webp" width="1600" height="900" fetchpriority="high" alt="GF Police tablet home screen with duty status, radio, officers on duty and active warrants"></div>
+        <img class="float-timer" src="jail-timer.webp" width="400" height="211" alt="Jail sentence timer: 25:35">
+        <img class="float-radio" src="radio-list.webp" width="420" height="1211" alt="GF Radio with the list of frequencies">
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GF POLICE ===== -->
+  <section id="police">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="tag">MDT · Police tablet</span>
+          <h2>GF Police</h2>
+          <p class="lead">Everything the police need in one tablet: profiles, reports, fines, calls with a live map, jail cells and vehicle impound. Each department with its own colour and logo.</p>
+        </div>
+        <div class="buy">
+          <div class="price"><small>Price</small><span data-price="police">[X €]</span></div>
+          <!-- TEBEX: GF Police buy button (changed from app.js) -->
+          <a class="btn btn-soon" data-buy="police" href="https://discord.gg/nR78WKsqf"><svg aria-hidden="true"><use href="#i-chat"/></svg>Coming soon</a>
+          <span class="hint">Be the first to know on Discord</span>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <div class="screen" id="gal-main" role="button" tabindex="0" aria-label="View the screenshot full size">
+          <img id="gal-img" src="tab-citizen.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Citizen profile: photo, licences, fines, records and notes">
+          <div class="cap" id="gal-cap"></div>
+        </div>
+        <div class="thumbs" id="gal-thumbs" aria-label="GF Police screenshots">
+          <button type="button" data-src="tab-citizen.webp" data-cap="Citizen profile: photo, licences, fines, records and notes">
+            <img src="tab-citizen.webp" width="1600" height="900" loading="lazy" decoding="async" alt="">Profile
+          </button>
+          <button type="button" data-src="tab-report.webp" data-cap="Reports with officers, people involved and penal code charges">
+            <img src="tab-report.webp" width="1600" height="900" loading="lazy" decoding="async" alt="">Report
+          </button>
+          <button type="button" data-src="tab-alerts.webp" data-cap="911 and anonymous calls with the live map">
+            <img src="tab-alerts.webp" width="1600" height="900" loading="lazy" decoding="async" alt="">Calls & map
+          </button>
+          <button type="button" data-src="tab-jail.webp" data-cap="Inmates in the cells, with their remaining time">
+            <img src="tab-jail.webp" width="1600" height="900" loading="lazy" decoding="async" alt="">Jail
+          </button>
+          <button type="button" data-src="tab-agents.webp" data-cap="Roster: badges, ranks and duty hours">
+            <img src="tab-agents.webp" width="1600" height="900" loading="lazy" decoding="async" alt="">Officers
+          </button>
+          <button type="button" data-src="tab-home.webp" data-cap="Home: duty, unit, radio and active warrants">
+            <img src="tab-home.webp" width="1600" height="900" loading="lazy" decoding="async" alt="">Home
+          </button>
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="feature"><span class="k">Profiles</span><h3>Citizens and vehicles</h3><p>Photo, licences, notes, fines, records, warrants and impound history.</p></div>
+        <div class="feature"><span class="k">Reports</span><h3>Reports and fines</h3><p>Officers, people involved and charges from the penal code, which you edit from the tablet. Citizens pay with <code style="font-family:var(--mono);font-size:14px">/multas</code> (command name is configurable).</p></div>
+        <div class="feature"><span class="k">Duty</span><h3>Units and calls</h3><p>Go on and off duty, statuses, units and hours. <code style="font-family:var(--mono);font-size:14px">/911</code> and anonymous calls with an on-screen panel.</p></div>
+        <div class="feature"><span class="k">Street · F7</span><h3>Action menu</h3><p>Cuff, escort, put in vehicle, search, mugshot and send to impound.</p></div>
+        <div class="feature"><span class="k">Jail</span><h3>Station cells</h3><p>Put the suspect in a cell, lock the door and apply the sentence from the report. When it ends, they walk out at the door.</p></div>
+        <div class="feature"><span class="k">Per department</span><h3>LSPD, BCSO and yours</h3><p>Colour, logo, society account and rank permissions for each department.</p></div>
+      </div>
+
+      <div class="duo">
+        <div class="pics">
+          <img src="f7.webp" width="520" height="702" loading="lazy" decoding="async" alt="F7 action menu: cuff, escort, put in vehicle, search, mugshot and send to impound">
+          <img src="toasts.webp" width="540" height="457" loading="lazy" decoding="async" alt="On-screen notifications with the GF Police design">
+        </div>
+        <div>
+          <span class="tag">On the street</span>
+          <h3 style="margin-top:12px">No tablet needed</h3>
+          <p>With F7 officers do their everyday actions from a menu with the same design. On-screen notifications follow the tablet style too.</p>
+          <ul class="checks">
+            <li>Cuff and uncuff, with an optional item</li>
+            <li>Escort, put in and take out of vehicles</li>
+            <li>Search with ox_inventory or qb-inventory</li>
+            <li>Impound: the owner gets it back at their garage script impound</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="reqs">
+        <strong>Requirements</strong>
+        <code>ESX / QBCore / Qbox</code><code>ox_lib</code><code>oxmysql</code><code>OneSync</code>
+        <code class="opt">ox_inventory (recommended)</code><code class="opt">ox_doorlock for the cells</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GF RADIO ===== -->
+  <section id="radio">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="tag">Radio · Mumble</span>
+          <h2>GF Radio</h2>
+          <p class="lead">A radio for the whole server. Job frequencies, groups created by players and public frequencies, with keys each player changes from the radio itself.</p>
+        </div>
+        <div class="buy">
+          <div class="price"><small>Price</small><span data-price="radio">[X €]</span></div>
+          <!-- TEBEX: GF Radio buy button (changed from app.js) -->
+          <a class="btn btn-soon" data-buy="radio" href="https://discord.gg/nR78WKsqf"><svg aria-hidden="true"><use href="#i-chat"/></svg>Coming soon</a>
+          <span class="hint">Be the first to know on Discord</span>
+        </div>
+      </div>
+
+      <div class="radio-grid">
+        <div class="radio-pics">
+          <img src="radio-list.webp" width="420" height="1211" loading="lazy" decoding="async" alt="GF Radio: police frequencies in columns">
+          <img src="radio-settings.webp" width="420" height="1211" loading="lazy" decoding="async" alt="GF Radio: volume, sound and key settings">
+        </div>
+        <div class="radio-side">
+          <ul class="checks">
+            <li>Each job only sees its own channels: fixed ones on top, the rest in columns</li>
+            <li>Groups with 5 frequencies of their own, invites by proximity or ID</li>
+            <li>Talk on your frequency or to your whole group at once</li>
+            <li>Keys, volume, mute, streamer mode and animations</li>
+            <li>Custom sound: a clean beep, no static</li>
+          </ul>
+          <div class="screen"><img src="tab-radio.webp" width="1600" height="900" loading="lazy" decoding="async" alt="The radio inside the GF Police tablet, with each officer's callsign"></div>
+          <p class="soon" style="margin-top:10px">With GF Police: on-duty-only channels, callsigns and the radio inside the tablet.</p>
+        </div>
+      </div>
+
+      <div class="reqs">
+        <strong>Requirements</strong>
+        <code>ESX / QBCore / Qbox</code><code>ox_lib</code><code>oxmysql</code><code>pma-voice</code>
+        <code class="opt">radio item (optional)</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRECIOS ===== -->
+  <!-- Prices are set in app.js (CONFIG.precios). "[X €]" shows until you set them. -->
+  <section id="precios" class="pack">
+    <div class="wrap">
+      <span class="tag">Pricing</span>
+      <h2 style="font-size:clamp(48px,6vw,72px);margin-top:12px">Pick your script</h2>
+      <div class="prices">
+        <div class="plan">
+          <h3>GF Police</h3>
+          <div class="amount" data-price="police">[X €]</div>
+          <ul>
+            <li>Full police tablet</li>
+            <li>F7 menu, jail and impound</li>
+            <li>Updates included</li>
+          </ul>
+          <a class="btn btn-soon" data-buy="police" href="https://discord.gg/nR78WKsqf"><svg aria-hidden="true"><use href="#i-chat"/></svg>Coming soon</a>
+        </div>
+        <div class="plan best" id="pack">
+          <h3>Police + Radio bundle</h3>
+          <div class="amount" data-price="pack">[X €]</div>
+          <span class="save" data-save>You save [X €]</span>
+          <ul>
+            <li>GF Police and GF Radio</li>
+            <li>The radio shows inside the tablet</li>
+            <li>Channels follow each officer's duty status</li>
+          </ul>
+          <a class="btn btn-soon" data-buy="pack" href="https://discord.gg/nR78WKsqf"><svg aria-hidden="true"><use href="#i-chat"/></svg>Coming soon</a>
+        </div>
+        <div class="plan">
+          <h3>GF Radio</h3>
+          <div class="amount" data-price="radio">[X €]</div>
+          <ul>
+            <li>Job and public frequencies</li>
+            <li>Player groups</li>
+            <li>Updates included</li>
+          </ul>
+          <a class="btn btn-soon" data-buy="radio" href="https://discord.gg/nR78WKsqf"><svg aria-hidden="true"><use href="#i-chat"/></svg>Coming soon</a>
+        </div>
+      </div>
+      <p class="prices-note">Taxes depend on your country and are calculated by Tebex at checkout. Before buying, please read the <a href="terms.html" style="color:var(--accent-text)">terms and refunds</a>.</p>
+    </div>
+  </section>
+
+  <!-- ===== GRATIS ===== -->
+  <section id="gratis" class="free-sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="tag free">Free</span>
+          <h2>GF UI <em>free</em></h2>
+          <p class="lead">Notifications, progress bar and help text with the GF Scripts design. For ESX, QBCore and ox_lib, no build step. Open source (MIT).</p>
+        </div>
+        <div class="buy">
+          <a class="btn btn-free" data-link="gfui" href="gf-ui.zip" download><svg aria-hidden="true"><use href="#i-down"/></svg>Free download</a>
+          <a class="hint" data-link="gfui-github" href="#gratis" style="color:var(--free)">Code on GitHub</a>
+        </div>
+      </div>
+      <div class="free-grid">
+        <div class="free-demo">
+          <img class="t" src="ui-toasts.webp" width="540" height="430" loading="lazy" decoding="async" alt="GF UI notifications: success, error, info and warning">
+          <img class="p" src="ui-progress.webp" width="600" height="134" loading="lazy" decoding="async" alt="GF UI progress bar: repairing the vehicle, 74%">
+          <img class="x" src="ui-text.webp" width="308" height="92" loading="lazy" decoding="async" alt="GF UI help text with the E key">
+        </div>
+        <div>
+          <ul class="checks">
+            <li>Replaces ESX notifications, progress bar and text UI by copying three folders</li>
+            <li>On QBCore it replaces the progress bar and, with one function, the notifications</li>
+            <li>Optional: a few lines in ox_lib so the whole server shares the same style</li>
+            <li>Colour, positions, duration and sound in <code style="font-family:var(--mono);font-size:14px">config.lua</code></li>
+            <li>Open source: the design is plain CSS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CÓMO SE COMPRA ===== -->
+  <section id="compra">
+    <div class="wrap">
+      <p class="soon-box" id="store-soon"><strong>The store opens very soon.</strong> Join our <a data-link="discord" href="https://discord.gg/nR78WKsqf">Discord</a> to be the first to know. Meanwhile you can download <a href="#gratis">GF UI for free</a>.</p>
+      <span class="tag">Secure checkout</span>
+      <h2 style="font-size:clamp(48px,6vw,72px);margin-top:12px">How to buy</h2>
+      <div class="steps">
+        <div class="step"><h3>Buy in the store</h3><p>Payment is handled by Tebex, the official store for FiveM scripts.</p></div>
+        <div class="step"><h3>It arrives on Cfx.re</h3><p>The script appears in <code>portal.cfx.re</code>, under Assets → Granted Assets, on the account you bought with.</p></div>
+        <div class="step"><h3>Copy it</h3><p>Download the folder, put it in <code>resources</code> and add <code>ensure</code> to <code>server.cfg</code>.</p></div>
+        <div class="step"><h3>Start patrolling</h3><p>Database tables are created automatically. Adjust <code>config.lua</code> and you are done.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PREGUNTAS ===== -->
+  <section id="preguntas">
+    <div class="wrap">
+      <span class="tag">FAQ</span>
+      <h2 style="font-size:clamp(48px,6vw,72px);margin-top:12px">Frequently asked questions</h2>
+      <div class="faq">
+        <details>
+          <summary>Does it work on QBCore and Qbox?</summary>
+          <p>Yes. GF Police and GF Radio detect ESX Legacy, QBCore or Qbox automatically. They work with ox_inventory or qb-inventory, and with other inventories through the framework.</p>
+        </details>
+        <details>
+          <summary>Which languages?</summary>
+          <p>English and Spanish. Choose it in <code style="font-family:var(--mono);font-size:14px">server.cfg</code> with <code style="font-family:var(--mono);font-size:14px">setr ox:locale en</code> or <code style="font-family:var(--mono);font-size:14px">es</code>. Texts live in open files, so you can add your own language.</p>
+        </details>
+        <details>
+          <summary>Can I edit the script?</summary>
+          <p>Yes. Config, texts, the compatibility code for each framework, inventory and bank, and the notification style are open. Only the core is protected, with the official Cfx.re escrow system.</p>
+        </details>
+        <details>
+          <summary>Do I pay for updates?</summary>
+          <p>No. When a new version is out, download it again from portal.cfx.re with the same account.</p>
+        </details>
+        <details>
+          <summary>Which servers can run it?</summary>
+          <p>Servers whose license key belongs to the same Cfx.re account you bought with.</p>
+        </details>
+        <details>
+          <summary>Do I need ox_doorlock for the jail?</summary>
+          <p>It is not required, but we recommend it: the officer puts the suspect in a cell, locks the door with ox_doorlock and applies the sentence from the report.</p>
+        </details>
+        <details>
+          <summary>Can I get a refund?</summary>
+          <p>See our <a href="terms.html" style="color:var(--accent-text)">terms and refunds</a>. If something does not work, message us on Discord first: it can almost always be fixed.</p>
+        </details>
+        <details>
+          <summary>How do I get support?</summary>
+          <p>On our <a data-link="discord" href="https://discord.gg/nR78WKsqf" style="color:var(--accent-text)">Discord</a>, in the customer support channel. Have your Tebex transaction ID ready and anything shown in red in the console.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="#inicio" aria-label="GF Scripts, home"><svg aria-hidden="true"><use href="#gf-mark"/></svg><span><b>GF</b> SCRIPTS</span></a>
+      <p>© 2026 GF Scripts. GF Scripts is not affiliated with Rockstar Games, Take-Two Interactive or Cfx.re. Screenshots show the real scripts with sample data. The scripts' screenshots are in Spanish; English is selectable in-game.</p>
+    </div>
+    <div class="foot-links">
+      <!-- TEBEX: "Store" goes to Discord until you set CONFIG.tienda in app.js -->
+      <a data-buy="store" href="https://discord.gg/nR78WKsqf">Store (coming soon)</a>
+      <a data-link="discord" href="https://discord.gg/nR78WKsqf">Discord</a>
+      <a href="terms.html">Terms and refunds</a>
+      <a href="./" lang="es" hreflang="es">Español</a>
+    </div>
+  </div>
+</footer>
+
+<dialog class="viewer" id="viewer" aria-label="Full size screenshot">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <img id="viewer-img" alt="">
+  <p id="viewer-cap"></p>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>

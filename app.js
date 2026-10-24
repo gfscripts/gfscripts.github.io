@@ -27,7 +27,7 @@ const CONFIG = {
   // Vídeo de YouTube de la portada. Pon solo el código del vídeo:
   //   de https://www.youtube.com/watch?v=AbCdEf12345  copia  'AbCdEf12345'
   // Mientras sea null, en la portada sale la captura de la tablet.
-  video: null,
+  video: 'oD_4RUe7QwY',
 
   // Precios en euros, con punto para los decimales. Ejemplo: police: 24.99
   // Mientras sean null, sale "[X €]". El ahorro del pack se calcula solo.

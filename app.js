@@ -7,7 +7,7 @@ const CONFIG = {
   // Cuando tengas la tienda, pon aquí su enlace entre comillas, por ejemplo:
   //   tienda: 'https://gfscripts.tebex.io',
   // Mientras sea null, los botones de compra dicen "Próximamente" y llevan al Discord.
-  tienda: null,
+  tienda: 'https://gfscripts.tebex.store',
 
   // Enlace de cada producto en Tebex (opcional). Si lo dejas en null, el botón lleva a la tienda.
   productos: { police: null, radio: null, pack: null },

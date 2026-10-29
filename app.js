@@ -31,7 +31,12 @@ const CONFIG = {
 
   // Precios en euros, con punto para los decimales. Ejemplo: police: 24.99
   // Mientras sean null, sale "[X €]". El ahorro del pack se calcula solo.
-  precios: { police: 26.99, radio: 14.99, pack: 33.99 },
+  precios: { police: 26.98, radio: 14.99, pack: 33.99 },
+
+  // Oferta de lanzamiento. Sale el precio antiguo tachado, el nuevo y una franja arriba.
+  // Se apaga sola cuando pasa la fecha de "hasta". Para quitarla antes: oferta: null,
+  // (el porcentaje tiene que ser el mismo que pusiste en Tebex)
+  oferta: { porcentaje: 20, hasta: '2026-11-05T17:31:00+01:00' },
 };
 
 // ============================================================
@@ -87,9 +92,21 @@ document.querySelectorAll('[data-link="gfui-github"]').forEach((a) => {
 // ===== Precios =====
 const p = CONFIG.precios || {};
 const isNum = (v) => typeof v === 'number' && isFinite(v);
+
+// Oferta activa: hay porcentaje válido y todavía no ha pasado la fecha
+const sale = CONFIG.oferta;
+const saleEnd = sale && sale.hasta ? new Date(sale.hasta) : null;
+const saleOn = Boolean(sale && isNum(sale.porcentaje) && sale.porcentaje > 0 && sale.porcentaje < 100 && (!saleEnd || saleEnd.getTime() > Date.now()));
+const discounted = (value) => Math.round(value * (100 - sale.porcentaje)) / 100;
+
 document.querySelectorAll('[data-price]').forEach((el) => {
   const value = p[el.dataset.price];
-  el.textContent = isNum(value) ? money(value) : TXT.placeholder;
+  if (!isNum(value)) { el.textContent = TXT.placeholder; return; }
+  if (saleOn) {
+    el.innerHTML = `<s class="old-price">${money(value)}</s>${money(discounted(value))}`;
+  } else {
+    el.textContent = money(value);
+  }
 });
 document.querySelectorAll('[data-save]').forEach((el) => {
   if (isNum(p.police) && isNum(p.radio) && isNum(p.pack) && p.police + p.radio > p.pack) {
@@ -98,6 +115,29 @@ document.querySelectorAll('[data-save]').forEach((el) => {
     el.textContent = TXT.save(TXT.placeholder);
   }
 });
+
+// Franja de la oferta, arriba del todo
+if (saleOn) {
+  const style = document.createElement('style');
+  style.textContent = '.old-price{font-size:.5em;opacity:.55;margin-right:10px;text-decoration:line-through;letter-spacing:0}'
+    + '.sale-bar{background:#2563eb;color:#fff;text-align:center;padding:10px 16px;font-size:15px;font-weight:600;line-height:1.4}'
+    + '.sale-bar a{color:#fff;text-decoration:underline;margin-left:8px}';
+  document.head.appendChild(style);
+
+  const until = saleEnd ? saleEnd.toLocaleDateString(EN ? 'en-GB' : 'es-ES', { day: 'numeric', month: 'long' }) : '';
+  const bar = document.createElement('div');
+  bar.className = 'sale-bar';
+  bar.textContent = EN
+    ? `🔥 Launch sale: ${sale.porcentaje}% off${until ? ' until ' + until : ''}`
+    : `🔥 Oferta de lanzamiento: -${sale.porcentaje}%${until ? ' hasta el ' + until : ''}`;
+  if (CONFIG.tienda) {
+    const link = document.createElement('a');
+    link.textContent = TXT.store;
+    external(link, CONFIG.tienda);
+    bar.appendChild(link);
+  }
+  document.body.insertBefore(bar, document.body.firstChild);
+}
 
 // ===== Vídeo de la portada =====
 // Primero se enseña una imagen con un botón de "play". YouTube solo se carga al pulsar
